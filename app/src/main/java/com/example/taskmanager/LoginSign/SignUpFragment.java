@@ -4,10 +4,8 @@ package com.example.taskmanager.LoginSign;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -21,14 +19,13 @@ import com.example.taskmanager.R;
 import com.example.taskmanager.Repository.UserRepository;
 import com.example.taskmanager.model.User;
 
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SignUpFragment extends Fragment {
-    public static final String PASSWORD = "password";
-    public static final String USERNAME = "username";
+    static final String PASSWORD = "password";
+    static final String USERNAME = "username";
     private EditText username;
     private EditText password;
     private Button signUp;

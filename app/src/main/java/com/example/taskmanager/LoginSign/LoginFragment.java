@@ -1,17 +1,12 @@
 package com.example.taskmanager.LoginSign;
 
 
-import android.accessibilityservice.GestureDescription;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +24,12 @@ import com.example.taskmanager.model.User;
 public class LoginFragment extends Fragment {
 
     private static final int SIGN_CODE = 1;
-    private static final String USER_KEY_BUNDLE = "User";
-    private static final String PASS_KEY_BUNDLE = "Pass";
     private EditText username;
     private EditText password;
     private Button login;
     private Button signUp;
     private View mView;
-    UserRepository uRepository;
+    private UserRepository uRepository;
 
 
     public LoginFragment() {

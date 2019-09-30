@@ -1,7 +1,5 @@
 package com.example.taskmanager;
 
-
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,17 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
-
-import com.example.taskmanager.Repository.TaskRepository;
-import com.example.taskmanager.model.State;
-import com.example.taskmanager.model.Task;
-
-import java.io.Serializable;
-import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 

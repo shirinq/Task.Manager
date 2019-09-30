@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,8 +26,6 @@ import com.example.taskmanager.model.State;
 import com.example.taskmanager.model.User;
 import com.google.android.material.tabs.TabLayout;
 
-import java.io.Serializable;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +33,7 @@ import java.io.Serializable;
 public class TabFragment extends Fragment {
 
     private static final int LOGOUT_CODE = 10;
-    public static final String CURRENT_ITEM = "currentItem";
+    private static final String CURRENT_ITEM = "currentItem";
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private FragmentStatePagerAdapter mAdapter;

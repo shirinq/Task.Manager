@@ -7,8 +7,6 @@ import androidx.fragment.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.DrawableContainer;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -17,7 +15,6 @@ import com.example.taskmanager.Repository.UserRepository;
 import com.example.taskmanager.TaskActivity;
 import com.example.taskmanager.model.User;
 
-import java.util.UUID;
 
 public class LoginSignActivity extends AppCompatActivity {
 

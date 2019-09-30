@@ -1,7 +1,6 @@
 package com.example.taskmanager.model;
 
 import android.os.Build;
-import android.os.ParcelUuid;
 
 import androidx.annotation.RequiresApi;
 
