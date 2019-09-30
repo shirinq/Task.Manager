@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Task Manager</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="todo">TODO</string>
+    <string name="doing">DOING</string>
+    <string name="done">DONE</string>
+    <string name="sign_question">Don\'t have an account yet?</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="profile">profile</string>
+    <string name="Empty_fields">Username and Password cannot be empty</string>
+    <string name="wrong_inputs">Wrong username or password</string>
+    <string name="delete">Delete task?</string>
+    <string name="SignUpFragment_TAG">signUp</string>
+    <string name="logOut">Are you sure you want to logout?</string>
+</resources>
