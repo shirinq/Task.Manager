@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,10 +58,10 @@ public class SingleFragment extends Fragment {
      * TASK LIST VIEW
      */
     private FloatingActionButton add;
-    private ImageView emptyView;
     private State mState;
     private Adapter adapter;
     private RecyclerView mRecycler;
+    private View mView;
 
     /**
      * GLOBAL OBJECTS
@@ -102,15 +103,15 @@ public class SingleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_single, container, false);
-        add = view.findViewById(R.id.add_btn);
-        emptyView = view.findViewById(R.id.empty_image);
-        mRecycler = view.findViewById(R.id.task_recycler);
+        mView = inflater.inflate(R.layout.fragment_single, container, false);
+        add = mView.findViewById(R.id.add_btn);
+        mRecycler = mView.findViewById(R.id.task_recycler);
         if (!TaskRepository.getInstance(getActivity()).getTasks(mState).isEmpty())
-            emptyView.setVisibility(View.GONE);
+            mView.setBackgroundColor(getResources().getColor(R.color.back));
         Recycler();
         Listener();
-        return view;
+        Log.d("single", "onCreateView: ");
+        return mView;
     }
 
     private void Recycler() {
@@ -169,11 +170,11 @@ public class SingleFragment extends Fragment {
             adapter.taskList = TaskRepository
                     .getInstance(getActivity()).getTasks(mState);
             adapter.notifyDataSetChanged();
+            if (!TaskRepository.getInstance(getActivity()).getTasks(mState).isEmpty())
+                mView.setBackgroundColor(getResources().getColor(R.color.back));
+            else
+                mView.setBackgroundResource(R.mipmap.empty);
         }
-        if (!TaskRepository.getInstance(getActivity()).getTasks(mState).isEmpty())
-            emptyView.setVisibility(View.GONE);
-        else
-            emptyView.setVisibility(View.VISIBLE);
     }
 
 

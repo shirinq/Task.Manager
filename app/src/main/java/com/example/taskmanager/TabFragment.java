@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -68,21 +67,27 @@ public class TabFragment extends Fragment {
         mAdapter = new pagerAdapter(getActivity().getSupportFragmentManager());
         viewPager.setAdapter(mAdapter);
 
-        if(savedInstanceState!=null)
+        if (savedInstanceState != null)
             viewPager.setCurrentItem(savedInstanceState.getInt(CURRENT_ITEM));
 
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
             @Override
-            public void onPageScrollStateChanged(int state) { }
+            public void onPageScrollStateChanged(int state) {
+            }
 
             @Override
             public void onPageSelected(int position) {
-                doing.updateAdapter();
-                todo.updateAdapter();
-                done.updateAdapter();
+                if (position == 0)
+                    todo.updateAdapter();
+                else if (position == 1)
+                    doing.updateAdapter();
+                else
+                    done.updateAdapter();
             }
         });
 
@@ -150,9 +155,4 @@ public class TabFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(CURRENT_ITEM,viewPager.getCurrentItem());
-    }
 }
