@@ -18,6 +18,9 @@ import com.example.taskmanager.model.User;
 
 public class LoginSignActivity extends AppCompatActivity {
 
+    LoginFragment login = LoginFragment.newInstance();
+    SignUpFragment sign = SignUpFragment.newInstance(null,null);
+
     public static Intent newIntent(Context context) {
         return new Intent(context, LoginSignActivity.class);
     }
@@ -32,19 +35,17 @@ public class LoginSignActivity extends AppCompatActivity {
 
 
         User user = UserRepository.getInstance(this).LoggedUser();
-
-        if (user != null) {
+        if (user != null)
             startTaskList(user);
-        }
 
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.Login_container, LoginFragment.newInstance())
-                    .add(R.id.Sign_container, SignUpFragment.newInstance(null, null))
+                    .add(R.id.Login_container, login)
+                    .add(R.id.Sign_container, sign)
                     .commit();
         } else
-            getSupportFragmentManager().beginTransaction().add(R.id.user_container, LoginFragment.newInstance())
+            getSupportFragmentManager().beginTransaction().add(R.id.user_container, login)
                     .commit();
     }
 

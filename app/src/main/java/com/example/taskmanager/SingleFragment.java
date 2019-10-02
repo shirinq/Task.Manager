@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -180,6 +179,7 @@ public class SingleFragment extends Fragment {
 
     private class TaskHolder extends RecyclerView.ViewHolder {
 
+        private TextView tview;
         private TextView name;
         private ImageButton delete;
         private ImageButton edit;
@@ -187,6 +187,7 @@ public class SingleFragment extends Fragment {
 
         private TaskHolder(@NonNull final View itemView) {
             super(itemView);
+            tview = itemView.findViewById(R.id.view);
             name = itemView.findViewById(R.id.nameTxt);
             delete = itemView.findViewById(R.id.Button_delete);
             edit = itemView.findViewById(R.id.Button_edit);
@@ -194,6 +195,7 @@ public class SingleFragment extends Fragment {
 
         private void bind(final Task task) {
             hTask = task;
+            tview.setText(String.valueOf(task.getTitle().charAt(0)));
             name.setText(task.getTitle());
 
             delete.setOnClickListener(new View.OnClickListener() {
