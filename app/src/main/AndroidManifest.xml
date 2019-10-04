@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_task_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".UserActivity"></activity>
         <activity
             android:name=".LoginSign.LoginSignActivity"
             android:launchMode="singleTop"
@@ -19,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TaskActivity"></activity>
+        <activity android:name=".TaskActivity" />
     </application>
 
 </manifest>

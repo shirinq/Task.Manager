@@ -13,6 +13,7 @@ import android.os.Bundle;
 import com.example.taskmanager.R;
 import com.example.taskmanager.Repository.UserRepository;
 import com.example.taskmanager.TaskActivity;
+import com.example.taskmanager.UserActivity;
 import com.example.taskmanager.model.User;
 
 
@@ -61,6 +62,12 @@ public class LoginSignActivity extends AppCompatActivity {
     public void startTaskList(User user) {
         startActivity(TaskActivity
                 .newIntent(LoginSignActivity.this, user.getUsername(), user.getID().toString()));
+        finish();
+    }
+
+    public void startUserList() {
+        startActivity(UserActivity
+                .newIntent(LoginSignActivity.this));
         finish();
     }
 

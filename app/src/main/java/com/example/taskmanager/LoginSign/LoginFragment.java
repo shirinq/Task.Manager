@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.taskmanager.R;
 import com.example.taskmanager.Repository.UserRepository;
+import com.example.taskmanager.UserFragment;
 import com.example.taskmanager.model.User;
 
 /**
@@ -24,6 +25,7 @@ import com.example.taskmanager.model.User;
 public class LoginFragment extends Fragment {
 
     private static final int SIGN_CODE = 1;
+    public static final String USER_ADMINISTER_TAG = "UserFragment";
     private EditText username;
     private EditText password;
     private Button login;
@@ -63,7 +65,13 @@ public class LoginFragment extends Fragment {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(username.getText().toString().equals("") || password.getText().toString().equals("")){
+
+                if(username.getText().toString().equals("ADMIN")
+                        && password.getText().toString().equals("0")){
+                    ((LoginSignActivity)getActivity()).startUserList();
+                }
+
+                else if(username.getText().toString().equals("") || password.getText().toString().equals("")){
                     Toast.makeText(getActivity().getApplicationContext(),R.string.Empty_fields,Toast.LENGTH_LONG)
                             .show();
                     return;

@@ -15,6 +15,7 @@
     <string name="Empty_fields">Username and Password cannot be empty</string>
     <string name="wrong_inputs">Wrong username or password</string>
     <string name="delete">Delete task?</string>
+    <string name="delete_user">Delete user?</string>
     <string name="SignUpFragment_TAG">signUp</string>
     <string name="logOut">Are you sure you want to logout?</string>
 </resources>
