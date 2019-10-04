@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.taskmanager.Database.TaskBaseHelper;
 import com.example.taskmanager.Database.TaskDBSchema;
-import com.example.taskmanager.Database.UserBaseHelper;
 import com.example.taskmanager.Database.UserCursorWrapper;
 import com.example.taskmanager.model.User;
 
@@ -26,7 +26,7 @@ public class UserRepository {
 
     private UserRepository(Context context) {
         mContext = context.getApplicationContext();
-        mDatabase = new UserBaseHelper(context).getWritableDatabase();
+        mDatabase = new TaskBaseHelper(context).getWritableDatabase();
     }
 
     public static UserRepository getInstance(Context context) {
@@ -42,7 +42,7 @@ public class UserRepository {
 
         try {
             cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
+            while (!cursor.isAfterLast() && !cursor.isNull(0)) {
                 users.add(cursor.getUser());
                 cursor.moveToNext();
             }

@@ -373,8 +373,8 @@ public class SingleFragment extends Fragment {
                 break;
 
             case TIME_REQUEST_CODE:
-                int hour = mTimePicker.getHour();
-                int minute = mTimePicker.getMinute();
+                int hour = mTimePicker.getCurrentHour();
+                int minute = mTimePicker.getCurrentMinute();
                 Calendar time = Calendar.getInstance();
                 time.setTime(tempDate);
                 time.set(Calendar.HOUR, hour);

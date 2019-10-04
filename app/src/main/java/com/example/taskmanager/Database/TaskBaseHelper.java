@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 public class TaskBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
-    private static final String DATABASE_NAME = "TaskBase.db";
+    private static final String DATABASE_NAME = "TaskUserBase.db";
 
     public TaskBaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, VERSION);
@@ -26,6 +26,15 @@ public class TaskBaseHelper extends SQLiteOpenHelper {
                 TaskDBSchema.TaskTable.Cols.DESCRIPTION + " ," +
                 " FOREIGN KEY "+" ("+ TaskDBSchema.TaskTable.Cols.USERID+" )" + " REFERENCES " +
                 TaskDBSchema.UserTable.NAME +" (" + TaskDBSchema.UserTable.Cols.UUID + " )" +
+                " )"
+        );
+
+        sqLiteDatabase.execSQL(" CREATE TABLE " + TaskDBSchema.UserTable.NAME +
+                "(" +
+                TaskDBSchema.UserTable.Cols.UUID + ", " +
+                TaskDBSchema.UserTable.Cols.USERNAME + ", " +
+                TaskDBSchema.UserTable.Cols.PASSWORD + ", " +
+                TaskDBSchema.UserTable.Cols.LOGGED +
                 " )"
         );
 
