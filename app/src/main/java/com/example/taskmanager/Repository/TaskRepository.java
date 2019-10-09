@@ -146,6 +146,12 @@ public class TaskRepository {
         mDatabase.delete(TaskDBSchema.TaskTable.NAME,where,whereArgs);
     }
 
+    public void deleteTask(UUID userID){
+        String where = TaskDBSchema.TaskTable.Cols.USERID + " = ?";
+        String [] whereArgs = new String[]{userID.toString()};
+        mDatabase.delete(TaskDBSchema.TaskTable.NAME,where,whereArgs);
+    }
+
     private CursorWrapper queryTasks(String[] columns, String where, String[] whereArgs) {
         Cursor cursor = mDatabase.query(TaskDBSchema.TaskTable.NAME,
                 columns,

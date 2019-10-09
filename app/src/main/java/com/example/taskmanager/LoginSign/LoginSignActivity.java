@@ -68,7 +68,6 @@ public class LoginSignActivity extends AppCompatActivity {
     public void startUserList() {
         startActivity(UserActivity
                 .newIntent(LoginSignActivity.this));
-        finish();
     }
 
 }

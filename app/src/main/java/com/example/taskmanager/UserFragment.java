@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.taskmanager.Repository.TaskRepository;
 import com.example.taskmanager.Repository.UserRepository;
 import com.example.taskmanager.model.User;
 
@@ -191,6 +192,7 @@ public class UserFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==DELETE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             UserRepository.getInstance(getActivity()).deleteUser(currentUser);
+            TaskRepository.getInstance(getActivity()).deleteTask(currentUser.getID());
             updateAdapter();
         }
         else if(requestCode==LOGOUT_CODE && resultCode == Activity.RESULT_OK){
