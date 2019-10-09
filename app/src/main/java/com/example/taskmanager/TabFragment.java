@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 
 import com.example.taskmanager.LoginSign.LoginSignActivity;
 import com.example.taskmanager.Repository.UserRepository;
-import com.example.taskmanager.model.State;
 import com.example.taskmanager.model.User;
 import com.google.android.material.tabs.TabLayout;
 
@@ -37,9 +36,9 @@ public class TabFragment extends Fragment {
     private TabLayout tabLayout;
     private FragmentStatePagerAdapter mAdapter;
     private int[] srcString = {R.string.todo, R.string.doing, R.string.done};
-    private SingleFragment doing = SingleFragment.newInstance(State.DOING);
-    private SingleFragment todo = SingleFragment.newInstance(State.TODO);
-    private SingleFragment done = SingleFragment.newInstance(State.DONE);
+    private SingleFragment todo = SingleFragment.newInstance("TODO");
+    private SingleFragment doing = SingleFragment.newInstance("DOING");
+    private SingleFragment done = SingleFragment.newInstance("DONE");
 
     private int TabNumber = 3;
 

@@ -21,14 +21,15 @@ import static android.app.Activity.RESULT_OK;
 public class customDialogFragment extends DialogFragment {
 
 
-    private View mView;
+    private View mView ;
     private String mTitle;
+    private AlertDialog dialog;
 
     public customDialogFragment() {
         // Required empty public constructor
     }
 
-    public static customDialogFragment newInstance(View view , String title) {
+    public static customDialogFragment newInstance(View view, String title) {
         customDialogFragment dialogFragment = new customDialogFragment();
         dialogFragment.mView = view;
         dialogFragment.mTitle = title;
@@ -38,19 +39,17 @@ public class customDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-
-        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        getTargetFragment()
-                                .onActivityResult(getTargetRequestCode(), RESULT_OK,new Intent());
-                    }
-                })
-                .setNegativeButton(android.R.string.cancel, null)
-                .setTitle(mTitle)
-                .setView(mView).create();
-
-        return alertDialog;
+            dialog = new AlertDialog.Builder(getActivity())
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            getTargetFragment()
+                                    .onActivityResult(getTargetRequestCode(), RESULT_OK, new Intent());
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .setTitle(mTitle)
+                    .setView(mView).create();
+            return dialog;
     }
 }

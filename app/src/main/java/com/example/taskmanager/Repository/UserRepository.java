@@ -1,24 +1,20 @@
 package com.example.taskmanager.Repository;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.taskmanager.Database.TaskBaseHelper;
-import com.example.taskmanager.Database.TaskDBSchema;
-import com.example.taskmanager.Database.UserCursorWrapper;
+import com.example.taskmanager.model.DaoMaster;
+import com.example.taskmanager.model.DaoSession;
 import com.example.taskmanager.model.User;
+import com.example.taskmanager.model.UserDao;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class UserRepository {
 
     private Context mContext;
-    private SQLiteDatabase mDatabase;
+    private UserDao mDatabase;
     private static UserRepository instance;
 
     private UserRepository() {
@@ -26,65 +22,17 @@ public class UserRepository {
 
     private UserRepository(Context context) {
         mContext = context.getApplicationContext();
-        mDatabase = new TaskBaseHelper(context).getWritableDatabase();
+
+        SQLiteDatabase db = new TaskBaseHelper(mContext).getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(db);
+        DaoSession daoSession = daoMaster.newSession();
+        mDatabase = daoSession.getUserDao();
     }
 
     public static UserRepository getInstance(Context context) {
         if (instance == null)
             instance = new UserRepository(context);
         return instance;
-    }
-
-    public List<User> getUsers() {
-        List<User> users = new ArrayList<>();
-
-        UserCursorWrapper cursor = (UserCursorWrapper) queryUsers(null, null, null);
-
-        try {
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast() && !cursor.isNull(0)) {
-                users.add(cursor.getUser());
-                cursor.moveToNext();
-            }
-
-        } finally {
-            cursor.close();
-        }
-        return users;
-    }
-
-    public User LoggedUser() {
-        for(User u : getUsers())
-            if(u.isLogged())
-                return u;
-            return null;
-    }
-
-
-    private CursorWrapper queryUsers(String[] columns, String where, String[] whereArgs) {
-        Cursor cursor = mDatabase.query(TaskDBSchema.UserTable.NAME,
-                columns,
-                where,
-                whereArgs,
-                null,
-                null,
-                null);
-
-        return new UserCursorWrapper(cursor);
-    }
-
-
-    private ContentValues getContentValues(User user) {
-        ContentValues values = new ContentValues();
-        values.put(TaskDBSchema.UserTable.Cols.UUID, user.getID().toString());
-        values.put(TaskDBSchema.UserTable.Cols.USERNAME, user.getUsername());
-        values.put(TaskDBSchema.UserTable.Cols.PASSWORD, user.getPassword());
-        int log = 0 ;
-        if(user.isLogged())
-            log = 1;
-        values.put(TaskDBSchema.UserTable.Cols.LOGGED, log);
-
-        return values;
     }
 
     public Boolean UserIsExist(User user) {
@@ -110,19 +58,17 @@ public class UserRepository {
         return null;
     }
 
-    public User getUser(UUID id) {
-        String where = TaskDBSchema.UserTable.Cols.UUID + " = ?";
-        String[] whereArgs = new String[]{id.toString()};
+    public User LoggedUser() {
+        return mDatabase.queryBuilder().where(UserDao.Properties.Logged.eq(1)).unique();
+    }
 
-        UserCursorWrapper cursor = (UserCursorWrapper) queryUsers(null, where, whereArgs);
 
-        try {
-            cursor.moveToFirst();
-            return cursor.getUser();
-
-        } finally {
-            cursor.close();
-        }
+    /**
+     * READ
+     * @return
+     */
+    public List<User> getUsers() {
+        return mDatabase.loadAll();
     }
 
 
@@ -131,8 +77,7 @@ public class UserRepository {
      */
     public Boolean insertUser(User user) {
         if (!UserIsExist(user)) {
-            ContentValues values = getContentValues(user);
-            mDatabase.insert(TaskDBSchema.UserTable.NAME, null, values);
+            mDatabase.insert(user);
             return true;
         }
         return false;
@@ -145,10 +90,7 @@ public class UserRepository {
      */
 
     public void updateUser(User user) {
-        ContentValues values = getContentValues(user);
-        String where = TaskDBSchema.UserTable.Cols.UUID + " = ?";
-        String[] whereArgs = new String[]{user.getID().toString()};
-        mDatabase.update(TaskDBSchema.UserTable.NAME, values, where, whereArgs);
+       mDatabase.update(user);
     }
 
     /**
@@ -158,10 +100,7 @@ public class UserRepository {
      */
 
     public void deleteUser(User user) {
-        ContentValues values = getContentValues(user);
-        String where = TaskDBSchema.UserTable.Cols.UUID + " = ?";
-        String[] whereArgs = new String[]{user.getID().toString()};
-        mDatabase.delete(TaskDBSchema.UserTable.NAME, where, whereArgs);
+        mDatabase.delete(user);
     }
 
 }

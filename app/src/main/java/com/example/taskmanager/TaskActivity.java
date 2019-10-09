@@ -6,6 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+
 import com.example.taskmanager.Repository.TaskRepository;
 
 
@@ -36,5 +38,11 @@ public class TaskActivity extends AppCompatActivity {
                     .add(R.id.frag_container, TabFragment.newInstance())
                     .commit();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d("Rotate", "onSaveInstanceState: activity");
     }
 }

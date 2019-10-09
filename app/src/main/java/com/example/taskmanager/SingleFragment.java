@@ -25,7 +25,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.taskmanager.Repository.TaskRepository;
-import com.example.taskmanager.model.State;
 import com.example.taskmanager.model.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -57,7 +56,7 @@ public class SingleFragment extends Fragment {
      * TASK LIST VIEW
      */
     private FloatingActionButton add;
-    private State mState;
+    private String  mState;
     private Adapter adapter;
     private RecyclerView mRecycler;
     private View mView;
@@ -85,7 +84,7 @@ public class SingleFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static SingleFragment newInstance(State state) {
+    public static SingleFragment newInstance(String state) {
         SingleFragment fragment = new SingleFragment();
         fragment.mState = state;
         return fragment;
@@ -95,7 +94,7 @@ public class SingleFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null)
-            mState = (State) savedInstanceState.getSerializable("state");
+            mState = savedInstanceState.getString("state");
     }
 
     @Override
@@ -109,7 +108,6 @@ public class SingleFragment extends Fragment {
             mView.setBackgroundColor(getResources().getColor(R.color.back));
         Recycler();
         Listener();
-        Log.d("single", "onCreateView: ");
         return mView;
     }
 
@@ -256,13 +254,13 @@ public class SingleFragment extends Fragment {
         mTitle.setText(mTask.getTitle());
         mDescription.setText(mTask.getDescription());
 
-        if (mState == State.TODO) {
+        if (mState.equals(getString(R.string.todo))) {
             todo.setChecked(true);
             if (add) {
                 doing.setVisibility(View.GONE);
                 done.setVisibility(View.GONE);
             }
-        } else if (mState == State.DOING) {
+        } else if (mState.equals(getString(R.string.doing))) {
             doing.setChecked(true);
             if (add) {
                 todo.setVisibility(View.GONE);
@@ -396,6 +394,7 @@ public class SingleFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.d("Rotate", "onSaveInstanceState: single");
         super.onSaveInstanceState(outState);
         outState.putSerializable(STATE_KEY_BUNDLE, mState);
     }
