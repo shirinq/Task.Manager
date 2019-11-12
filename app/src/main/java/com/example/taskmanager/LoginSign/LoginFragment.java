@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.taskmanager.R;
@@ -64,20 +63,20 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if(username.getText().toString().equals("ADMIN")
-                        && password.getText().toString().equals("0")){
+                if(username.getEditText().getText().toString().equals("ADMIN")
+                        && password.getEditText().getText().toString().equals("0")){
                     ((LoginSignActivity)getActivity()).startUserList();
                     return;
                 }
 
-                else if(username.getText().toString().equals("") || password.getText().toString().equals("")){
+                else if(username.getEditText().getText().toString().equals("") || password.getEditText().getText().toString().equals("")){
                     Toast.makeText(getActivity().getApplicationContext(),R.string.Empty_fields,Toast.LENGTH_LONG)
                             .show();
                     return;
                 }
 
-                int pass = Integer.parseInt(password.getText().toString());
-                User user = new User(username.getText().toString(),pass);
+                int pass = Integer.parseInt(password.getEditText().getText().toString());
+                User user = new User(username.getEditText().getText().toString(),pass);
                 boolean validUser= uRepository.UserValidation(user);
 
                 if(validUser){
@@ -96,7 +95,7 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
 
                 SignUpFragment signUp = SignUpFragment
-                        .newInstance(username.getText().toString(),password.getText().toString());
+                        .newInstance(username.getEditText().getText().toString(),password.getEditText().getText().toString());
                 signUp.setTargetFragment(LoginFragment.this, SIGN_CODE);
 
                 getActivity().getSupportFragmentManager()
@@ -114,13 +113,13 @@ public class LoginFragment extends Fragment {
 
         if(resultCode == Activity.RESULT_OK && data != null){
             mView.setVisibility(View.VISIBLE);
-            username.setText(data.getStringExtra(SignUpFragment.USERNAME));
-            password.setText(data.getStringExtra(SignUpFragment.PASSWORD));
+            username.getEditText().setText(data.getStringExtra(SignUpFragment.USERNAME));
+            password.getEditText().setText(data.getStringExtra(SignUpFragment.PASSWORD));
         }
     }
 
     public void setText(String user , String pass){
-        username.setText(user);
-        password.setText(pass);
+        username.getEditText().setText(user);
+        password.getEditText().setText(pass);
     }
 }

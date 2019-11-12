@@ -1,12 +1,15 @@
-package com.example.taskmanager;
+package com.example.taskmanager.controller;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.taskmanager.R;
 import com.example.taskmanager.Repository.TaskRepository;
 import com.example.taskmanager.Repository.UserRepository;
 import com.example.taskmanager.model.User;
@@ -42,6 +46,10 @@ public class UserFragment extends Fragment {
     private View mView;
     private UserAdapter mAdapter;
     private User currentUser;
+
+
+    private TextView username;
+    private TextView password;
 
 
     public UserFragment() {
@@ -82,37 +90,32 @@ public class UserFragment extends Fragment {
         private ImageButton hDelete;
         private TextView uview;
         private View item;
+        private ImageButton hDetail;
 
         public UserHolder(@NonNull View itemView) {
             super(itemView);
             hUsername = itemView.findViewById(R.id.usernameTxt);
             uview = itemView.findViewById(R.id.uview);
             hDelete = itemView.findViewById(R.id.Button_user_delete);
+            hDetail = itemView.findViewById(R.id.Button_user_detail);
             item = itemView;
+
+            hDelete.setOnClickListener(view -> {
+                customDialogFragment fragment =
+                        customDialogFragment.newInstance(null, getString(R.string.delete_user));
+                fragment.setTargetFragment(UserFragment.this, DELETE_REQUEST_CODE);
+                fragment.show(getFragmentManager(), DELETE_DIALOG_TAG);
+            });
+
+            item.setOnClickListener(view -> startActivity(TaskActivity.newIntent(getActivity(),
+                    "ADMIN",currentUser.getID().toString())));
+
+            hDetail.setOnClickListener(view -> userDetail(currentUser).show());
         }
-        private void bind(final User user) {
+        private void bind(User user) {
+            currentUser = user;
             uview.setText(String.valueOf(user.getUsername().charAt(0)));
             hUsername.setText(user.getUsername());
-
-            hDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    currentUser = user;
-                    customDialogFragment fragment =
-                            customDialogFragment.newInstance(null, getString(R.string.delete_user));
-                    fragment.setTargetFragment(UserFragment.this, DELETE_REQUEST_CODE);
-                    fragment.show(getFragmentManager(), DELETE_DIALOG_TAG);
-                }
-            });
-
-            item.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View view) {
-                    startActivity(TaskActivity.newIntent(getActivity(),
-                            "ADMIN",user.getID().toString()));
-                }
-            });
         }
     }
 
@@ -198,5 +201,22 @@ public class UserFragment extends Fragment {
         else if(requestCode==LOGOUT_CODE && resultCode == Activity.RESULT_OK){
             getActivity().finish();
         }
+    }
+
+
+    private AlertDialog userDetail(User user){
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.user_detail,null, false);
+        username = view.findViewById(R.id.username_show);
+        password = view.findViewById(R.id.password_show);
+
+        username.setText(user.getUsername());
+        password.setText(user.getPassword().toString());
+
+        AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                .setView(view)
+                .setNeutralButton(android.R.string.ok,null)
+                .create();
+        return alertDialog;
+
     }
 }

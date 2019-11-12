@@ -1,4 +1,4 @@
-package com.example.taskmanager;
+package com.example.taskmanager.controller;
 
 
 import android.app.Activity;
@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.taskmanager.LoginSign.LoginSignActivity;
+import com.example.taskmanager.R;
 import com.example.taskmanager.Repository.UserRepository;
 import com.example.taskmanager.model.User;
 import com.google.android.material.tabs.TabLayout;

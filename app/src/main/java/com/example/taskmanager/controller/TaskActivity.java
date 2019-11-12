@@ -1,13 +1,15 @@
-package com.example.taskmanager;
+package com.example.taskmanager.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 
+import com.example.taskmanager.R;
 import com.example.taskmanager.Repository.TaskRepository;
 
 
@@ -15,6 +17,7 @@ public class TaskActivity extends AppCompatActivity {
 
     private static final String EXTRA_NAME_ID = "Username";
     private static final String EXTRA_ID = "UUID";
+    private Toolbar toolbar;
 
     public static Intent newIntent(Context context, String name , String uuid) {
         Intent intent = new Intent(context, TaskActivity.class);
@@ -28,8 +31,12 @@ public class TaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        setTitle("Welcome " + getIntent().getStringExtra(EXTRA_NAME_ID));
+        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setTitle("Welcome " + getIntent().getStringExtra(EXTRA_NAME_ID));
+
         TaskRepository.setUserId(getIntent().getStringExtra(EXTRA_ID));
 
         if(savedInstanceState == null) {
@@ -38,11 +45,5 @@ public class TaskActivity extends AppCompatActivity {
                     .add(R.id.frag_container, TabFragment.newInstance())
                     .commit();
         }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.d("Rotate", "onSaveInstanceState: activity");
     }
 }

@@ -48,11 +48,11 @@ public class Task {
         this.Title = title;
         this.Date = date;
         this.Description = description;
-        this.Id = UUID.randomUUID();
     }
 
     public Task(){
         Date = new Date();
+        this.Id = UUID.randomUUID();
     }
 
     public Task(UUID id){
@@ -126,8 +126,22 @@ public class Task {
         return Objects.equals(getId(), task.getId());
     }
 
+    @Override
+    public String toString() {
+        return "Task{" +
+                "State='" + State + '\'' +
+                ", Title='" + Title + '\'' +
+                ", Description='" + Description + '\'' +
+                ", Date=" + Date +
+                '}';
+    }
+
     public void setId(UUID Id) {
         this.Id = Id;
+    }
+
+    public String getPhotoName(){
+        return "IMG_"+Id+".jpg";
     }
 
 }

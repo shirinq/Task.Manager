@@ -12,8 +12,8 @@ import android.os.Bundle;
 
 import com.example.taskmanager.R;
 import com.example.taskmanager.Repository.UserRepository;
-import com.example.taskmanager.TaskActivity;
-import com.example.taskmanager.UserActivity;
+import com.example.taskmanager.controller.TaskActivity;
+import com.example.taskmanager.controller.UserActivity;
 import com.example.taskmanager.model.User;
 
 

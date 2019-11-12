@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.taskmanager.R;
 import com.example.taskmanager.Repository.UserRepository;
 import com.example.taskmanager.model.User;
+import com.google.android.material.textfield.TextInputLayout;
 
 
 /**
@@ -26,8 +27,8 @@ import com.example.taskmanager.model.User;
 public class SignUpFragment extends Fragment {
     static final String PASSWORD = "password";
     static final String USERNAME = "username";
-    private EditText username;
-    private EditText password;
+    private TextInputLayout username;
+    private TextInputLayout password;
     private Button signUp;
     private View mView;
 
@@ -53,8 +54,8 @@ public class SignUpFragment extends Fragment {
         username = mView.findViewById(R.id.userName_sign);
         password = mView.findViewById(R.id.Password_sign);
         signUp = mView.findViewById(R.id.Sign_up);
-        password.setText(getArguments().getString(PASSWORD));
-        username.setText(getArguments().getString(USERNAME));
+        password.getEditText().setText(getArguments().getString(PASSWORD));
+        username.getEditText().setText(getArguments().getString(USERNAME));
         signUpListener();
 
 
@@ -62,47 +63,44 @@ public class SignUpFragment extends Fragment {
     }
 
     private void signUpListener(){
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(username.getText().toString().equals("") || password.getText().toString().equals("")) {
-                    Toast.makeText(getActivity().getApplicationContext()
-                    ,R.string.Empty_fields,Toast.LENGTH_LONG).show();
+        signUp.setOnClickListener(view -> {
+            if(username.getEditText().getText().toString().equals("") || password.getEditText().getText().toString().equals("")) {
+                Toast.makeText(getActivity().getApplicationContext()
+                ,R.string.Empty_fields,Toast.LENGTH_LONG).show();
+                return;
+            }
+            Integer pass = Integer.parseInt(password.getEditText().getText().toString());
+            User newUser = new User(username.getEditText().getText().toString(),pass);
+            UserRepository repository = UserRepository.getInstance(getActivity().getApplicationContext());
+
+            if(repository.UserIsExist(newUser))
+                Toast.makeText(getActivity().getApplicationContext(),"Try another username",Toast.LENGTH_LONG).show();
+            else {
+
+                if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+                {
+                    repository.insertUser(newUser);
+                    LoginFragment fragment = (LoginFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.Login_container);
+                    fragment.setText(username.getEditText().getText().toString(),password.getEditText().getText().toString());
+
+                    username.getEditText().getText().clear();
+                    password.getEditText().getText().clear();
+
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Congratulations! :)",Toast.LENGTH_SHORT)
+                            .show();
+
                     return;
                 }
-                Integer pass = Integer.parseInt(password.getText().toString());
-                User newUser = new User(username.getText().toString(),pass);
-                UserRepository repository = UserRepository.getInstance(getActivity().getApplicationContext());
+                repository.insertUser(newUser);
+                Intent intent = new Intent();
+                intent.putExtra(USERNAME,username.getEditText().getText().toString());
+                intent.putExtra(PASSWORD,password.getEditText().getText().toString());
+                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .remove(SignUpFragment.this)
+                        .commit();
 
-                if(repository.UserIsExist(newUser))
-                    Toast.makeText(getActivity().getApplicationContext(),"Try another username",Toast.LENGTH_LONG).show();
-                else {
-
-                    if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-                    {
-                        repository.insertUser(newUser);
-                        LoginFragment fragment = (LoginFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.Login_container);
-                        fragment.setText(username.getText().toString(),password.getText().toString());
-
-                        username.getText().clear();
-                        password.getText().clear();
-
-                        Toast.makeText(getActivity().getApplicationContext(),
-                                "Congratulations! :)",Toast.LENGTH_SHORT)
-                                .show();
-
-                        return;
-                    }
-                    repository.insertUser(newUser);
-                    Intent intent = new Intent();
-                    intent.putExtra(USERNAME,username.getText().toString());
-                    intent.putExtra(PASSWORD,password.getText().toString());
-                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .remove(SignUpFragment.this)
-                            .commit();
-
-                }
             }
         });
     }

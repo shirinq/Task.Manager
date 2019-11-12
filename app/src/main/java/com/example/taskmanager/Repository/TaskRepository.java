@@ -9,6 +9,8 @@ import com.example.taskmanager.model.DaoSession;
 import com.example.taskmanager.model.Task;
 import com.example.taskmanager.model.TaskDao;
 
+import java.io.File;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -99,4 +101,12 @@ public class TaskRepository {
         .buildDelete();
     }
 
+    public File getPhotoFile(Task task){
+        return new File(mContext.getFilesDir(),task.getPhotoName());
+    }
+
+    public void deletePhotoFile(Task task){
+        File file = new File(mContext.getFilesDir(),task.getPhotoName());
+        file.deleteOnExit();
+    }
 }

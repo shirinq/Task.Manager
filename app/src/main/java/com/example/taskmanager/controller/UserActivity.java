@@ -1,10 +1,12 @@
-package com.example.taskmanager;
+package com.example.taskmanager.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.taskmanager.R;
 
 public class UserActivity extends AppCompatActivity {
 
