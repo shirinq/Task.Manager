@@ -16,18 +16,16 @@ import android.widget.Toast;
 
 import com.example.taskmanager.R;
 import com.example.taskmanager.Repository.UserRepository;
-import com.example.taskmanager.UserFragment;
 import com.example.taskmanager.model.User;
-
+import com.google.android.material.textfield.TextInputLayout;
 /**
  * A simple {@link Fragment} subclass.
  */
 public class LoginFragment extends Fragment {
 
     private static final int SIGN_CODE = 1;
-    public static final String USER_ADMINISTER_TAG = "UserFragment";
-    private EditText username;
-    private EditText password;
+    private TextInputLayout username;
+    private TextInputLayout password;
     private Button login;
     private Button signUp;
     private View mView;
@@ -69,6 +67,7 @@ public class LoginFragment extends Fragment {
                 if(username.getText().toString().equals("ADMIN")
                         && password.getText().toString().equals("0")){
                     ((LoginSignActivity)getActivity()).startUserList();
+                    return;
                 }
 
                 else if(username.getText().toString().equals("") || password.getText().toString().equals("")){
