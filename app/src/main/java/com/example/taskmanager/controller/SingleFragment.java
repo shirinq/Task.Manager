@@ -232,7 +232,7 @@ public class SingleFragment extends Fragment {
 
             share.setOnClickListener(view -> {
                 Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT,hTask.toString());
+                intent.putExtra(Intent.EXTRA_TEXT, hTask.toString());
                 intent.setType("text/plain");
                 startActivity(intent);
             });
@@ -240,7 +240,11 @@ public class SingleFragment extends Fragment {
 
         private void bind(Task task) {
             hTask = task;
-            tview.setText(String.valueOf(task.getTitle().charAt(0)));
+            if (task.getTitle() == null || task.getTitle().equals(""))
+                tview.setText(String.valueOf("Empty".charAt(0)));
+            else
+                tview.setText(String.valueOf(task.getTitle().charAt(0)));
+
             name.setText(task.getTitle());
 
             mPhotoFile = TaskRepository.getInstance(getActivity()).getPhotoFile(task);
@@ -283,6 +287,9 @@ public class SingleFragment extends Fragment {
                 mTask.setTitle(detailView.getTitle());
                 mTask.setDescription(detailView.getDescription());
                 TaskRepository.getInstance(getActivity()).insertTask(mTask);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    TaskRepository.getInstance(getActivity()).savePermanent(mTask);
+                }
                 updateAdapter();
                 break;
 
@@ -327,5 +334,9 @@ public class SingleFragment extends Fragment {
         outState.putSerializable(STATE_KEY_BUNDLE, mState);
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        TaskRepository.getInstance(getContext()).deleteTempDir();
+    }
 }

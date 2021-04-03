@@ -136,6 +136,8 @@ public class TabFragment extends Fragment {
                 fragment.setTargetFragment(TabFragment.this, LOGOUT_CODE);
                 fragment.show(getFragmentManager(), "Logout");
                 return true;
+            case R.id.app_bar_search:
+                getActivity().startActivity(SearchResult.newIntent(getContext()));
             default:
                 return super.onOptionsItemSelected(item);
         }

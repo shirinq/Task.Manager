@@ -84,7 +84,7 @@ public class DetailView {
     }
 
     public void setImage(){
-        File mPhotoFile = TaskRepository.getInstance(mContext).getPhotoFile(mTask);
+        File mPhotoFile = TaskRepository.getInstance(mContext).getTempPhotoFile(mTask);
         if (mPhotoFile != null && mPhotoFile.exists()) {
             Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getAbsolutePath(), (Activity) mContext);
             mCamera.setImageBitmap(bitmap);
@@ -225,7 +225,7 @@ public class DetailView {
         }
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         Uri mPhotoUri = FileProvider.getUriForFile(mContext, AUTHORITY_FILE_PROVIDER,
-                TaskRepository.getInstance(mContext).getPhotoFile(mTask));
+                TaskRepository.getInstance(mContext).getTempPhotoFile(mTask));
 
         List<ResolveInfo> cameraActivities = mContext.getPackageManager()
                 .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
